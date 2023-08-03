@@ -6,9 +6,25 @@ const Post = require('../models/post');
 const { Console } = require('console');
 
 exports.getPosts = (req, res, next) => {
+    const currentPage = req.query || 1;
+    const perPage = 2;
+    let totalIltems;
     Post.find()
+    .countDocuments()
+    .then(count => {
+        totalIltems = count;
+        return Post.find()
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage)
+    })
     .then(posts => {
-        res.status(200).jsoN({message: 'Fetched posts succesfully', posts: posts})
+        res
+        .status(200)
+        .jsoN({
+            message: 'Fetched posts succesfully', 
+            posts: posts, 
+            totalIltems: totalIltems 
+        })
     })
     .catch(err => {
         if (err.statusCode) {
