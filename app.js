@@ -68,3 +68,5 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+
+  // logic to get status already curent loggedIn User начать с фронт енда нужно с файла feed.js
