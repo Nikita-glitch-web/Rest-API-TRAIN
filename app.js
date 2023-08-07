@@ -51,6 +51,7 @@ app.use((req, res, next) => {
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);
 
+
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -64,9 +65,17 @@ mongoose
     "mongodb+srv://nikitalytvynov0506:Nikita12235970@cluster0.jqkve7h.mongodb.net/messages"
   )
   .then((result) => {
-    app.listen(8080);
+    const server = app.listen(8080);
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+        console.log('Client connected')
+    });
   })
   .catch((err) => console.log(err));
 
 
   // logic to get status already curent loggedIn User начать с фронт енда нужно с файла feed.js
+
+  // Asyncronous requests in a Synchronos way this is async await
+
+  //389,360,361,364 very important theory video 
